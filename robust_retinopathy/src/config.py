@@ -1,0 +1,9 @@
+DATA_DIR = "../../data/"
+MODEL_PATH = "../../data/"
+
+LEARNING_RATE = 1e-3
+TRAIN_BATCH_SIZE = 32
+VALID_BATCH_SIZE = 32
+NUM_WORKERS = 4
+EPOCHS = 2
+
