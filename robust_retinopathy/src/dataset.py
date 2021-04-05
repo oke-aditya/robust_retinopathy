@@ -30,7 +30,4 @@ class RetinopathyDataset(Dataset):
         if self.transform is not None:
             img = self.transform(image)
 
-        return {
-            'image': img,
-            'labels': label
-        }
+        return (img, label)
