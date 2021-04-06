@@ -3,6 +3,7 @@ from torch.utils.data import Dataset
 from PIL import Image
 import pandas as pd
 import os
+import config
 
 
 __all__ = ["RetinopathyDataset"]
@@ -24,7 +25,7 @@ class RetinopathyDataset(Dataset):
         img_name = os.path.join(self.image_dir, self.data.loc[idx, 'id_code'] + '.png')
 
         image = Image.open(img_name)
-        image = image.resize((512, 512), resample=Image.BILINEAR)
+        image = image.resize((config.IMG_HEIGHT, config.IMG_WIDTH), resample=Image.BILINEAR)
         label = torch.tensor(self.data.loc[idx, 'diagnosis'], dtype=torch.long)
 
         if self.transform is not None:
