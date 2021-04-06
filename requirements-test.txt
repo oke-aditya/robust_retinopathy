@@ -1,0 +1,6 @@
+quickvision==0.2.1
+torch==1.8.1
+torchvision==0.9.1
+timm==0.4.5
+pytorch_lightning==1.2.6
+pandas

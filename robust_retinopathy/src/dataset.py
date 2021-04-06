@@ -24,13 +24,10 @@ class RetinopathyDataset(Dataset):
         img_name = os.path.join(self.image_dir, self.data.loc[idx, 'id_code'] + '.png')
 
         image = Image.open(img_name)
-        image = image.resize((224, 224), resample=Image.BILINEAR)
+        image = image.resize((512, 512), resample=Image.BILINEAR)
         label = torch.tensor(self.data.loc[idx, 'diagnosis'], dtype=torch.long)
 
         if self.transform is not None:
             img = self.transform(image)
 
-        return {
-            'image': img,
-            'labels': label
-        }
+        return (img, label)
