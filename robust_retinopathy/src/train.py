@@ -22,18 +22,18 @@ if __name__ == "__main__":
         T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
-    full_dataset = dataset.RetinopathyDataset(config.TRAIN_DIR, config.CSV_PATH, transform=train_trasforms)
+    full_dataset = dataset.RetinopathyDataset(config.TRAIN_DIR, config.CSV_PATH, transforms=train_trasforms)
 
     train_size = int(config.TRAIN_SPLIT * len(full_dataset))
-    test_size = int(config.VAL_SPLIT * len(full_dataset))
+    test_size = len(full_dataset) - train_size
 
     train_dataset, val_dataset = torch.utils.data.random_split(full_dataset, [train_size, test_size])
 
     train_loader = DataLoader(full_dataset, batch_size=config.TRAIN_BATCH_SIZE,
-                              shuffle=False, num_workers=config.NUM_WORKERS, drop_last=True, pin_memory=True)
+                              shuffle=False, num_workers=config.NUM_WORKERS, drop_last=True, pin_memory=False)
 
     val_loader = DataLoader(val_dataset, batch_size=config.VALID_BATCH_SIZE, shuffle=False,
-                            num_workers=config.NUM_WORKERS, drop_last=True, pin_memory=True)
+                            num_workers=config.NUM_WORKERS, drop_last=True, pin_memory=False)
 
     # for batch_idx, (inputs, target) in enumerate(train_loader):
     #     print(batch_idx)

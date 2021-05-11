@@ -4,7 +4,8 @@ CSV_PATH = "../../data/train.csv"
 MODEL_PATH = "../../data/models/"
 
 TRAIN_SPLIT = 0.8
-VAL_SPLIT = 0.2
+# Automatically
+# VAL_SPLIT = 0.2
 
 LEARNING_RATE = 1e-3
 TRAIN_BATCH_SIZE = 4

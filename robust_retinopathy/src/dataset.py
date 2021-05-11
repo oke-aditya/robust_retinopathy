@@ -9,9 +9,9 @@ __all__ = ["RetinopathyDataset"]
 
 
 class RetinopathyDataset(Dataset):
-    def __init__(self, image_dir, csv_file, transform=None):
+    def __init__(self, image_dir, csv_file, transforms=None):
         self.data = pd.read_csv(csv_file)
-        self.transform = transform
+        self.transforms = transforms
         self.image_dir = image_dir
 
     def __len__(self):
@@ -25,9 +25,6 @@ class RetinopathyDataset(Dataset):
 
         tensor_image = read_image(img_name)
         label = torch.tensor(self.data.loc[idx, 'diagnosis'], dtype=torch.long)
-
-        if torch.cuda.is_available():
-            tensor_image = tensor_image.cuda()
 
         if self.transforms is not None:
             tensor_image = self.transforms(tensor_image)
