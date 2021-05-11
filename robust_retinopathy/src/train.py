@@ -44,12 +44,14 @@ if __name__ == "__main__":
     else:
         device = "cpu"
 
-    # # if config.USE_AMP:
-    # #     from torch.cuda import amp
-    # #     scaler = amp.GradScaler()
+    if config.USE_AMP:
+        from torch.cuda import amp
+        scaler = amp.GradScaler()
 
     for epoch in tqdm(range(config.EPOCHS)):
-        metrics = engine.train_step(model, train_loader, criterion, device, optimizer)
+        train_metrics = engine.train_step(model, train_loader, criterion, device, optimizer, scaler=scaler)
+
+        val_metrics = engine.val_step(model, val_loader, criterion, device)
 
         # Save model every epoch
         torch.save(model.state_dict(), config.MODEL_SAVE + f"_{epoch}" + ".pt")
