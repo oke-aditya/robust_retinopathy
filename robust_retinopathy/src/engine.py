@@ -25,7 +25,6 @@ def train_step(model: nn.Module, train_loader, criterion,
         scheduler : Learning rate scheduler.
         num_batches : (optional) Integer To limit training to certain number of batches.
         log_interval : (optional) Defualt 100. Integer to Log after specified batch ids in every batch.
-        grad_penalty : (optional) To penalize with l2 norm for big gradients.
         scaler: (optional)  Pass torch.cuda.amp.GradScaler() for fp16 precision Training.
     """
 
