@@ -7,14 +7,14 @@ from tqdm import tqdm
 import dataset
 import config
 import engine
-import utils
+from utils import seed_everything, set_debug_apis
 import timm
 
 
 if __name__ == "__main__":
 
-    utils.seed_everything(42)
-    utils.set_debug_apis(False)
+    seed_everything(42)
+    set_debug_apis(False)
 
     train_trasforms = T.Compose([
         T.ConvertImageDtype(torch.float32),
@@ -57,9 +57,19 @@ if __name__ == "__main__":
         from torch.cuda import amp
         scaler = amp.GradScaler()
 
+    train_loss = []
+    train_top1_acc = []
+    val_loss = []
+    val_top1_acc = []
+
     for epoch in tqdm(range(config.EPOCHS)):
         train_metrics = engine.train_step(model, train_loader, criterion, device, optimizer, scaler=scaler)
+        train_loss.append(train_metrics["loss"])
+        train_top1_acc.append(train_metrics["top1"])
+
         val_metrics = engine.val_step(model, val_loader, criterion, device)
+        val_loss.append(val_metrics["loss"])
+        val_top1_acc.append(val_metrics["top1"])
 
     #     # Save model every epoch
     #     torch.save(model.state_dict(), config.MODEL_SAVE + f"_{epoch}" + ".pt")
