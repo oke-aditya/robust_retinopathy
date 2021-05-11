@@ -72,4 +72,4 @@ if __name__ == "__main__":
         val_top1_acc.append(val_metrics["top1"])
 
     #     # Save model every epoch
-    #     torch.save(model.state_dict(), config.MODEL_SAVE + f"_{epoch}" + ".pt")
+        torch.save(model.state_dict(), config.MODEL_SAVE + f"{config.MODEL_NAME}_{epoch}" + ".pt")
