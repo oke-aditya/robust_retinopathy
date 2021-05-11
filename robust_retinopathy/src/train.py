@@ -17,7 +17,8 @@ if __name__ == "__main__":
     utils.set_debug_apis(False)
 
     train_trasforms = T.Compose([
-        T.ToTensor(),
+        T.ConvertImageDtype(torch.float32),
+        T.Resize((config.IMG_WIDTH, config.IMG_HEIGHT)),
         T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 

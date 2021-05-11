@@ -1,9 +1,8 @@
 import torch
 from torch.utils.data import Dataset
-from PIL import Image
+from torchvision.io import read_image
 import pandas as pd
 import os
-import config
 
 
 __all__ = ["RetinopathyDataset"]
@@ -24,11 +23,13 @@ class RetinopathyDataset(Dataset):
 
         img_name = os.path.join(self.image_dir, self.data.loc[idx, 'id_code'] + '.png')
 
-        image = Image.open(img_name)
-        image = image.resize((config.IMG_HEIGHT, config.IMG_WIDTH), resample=Image.BILINEAR)
+        tensor_image = read_image(img_name)
         label = torch.tensor(self.data.loc[idx, 'diagnosis'], dtype=torch.long)
 
-        if self.transform is not None:
-            img = self.transform(image)
+        if torch.cuda.is_available():
+            tensor_image = tensor_image.cuda()
 
-        return (img, label)
+        if self.transforms is not None:
+            tensor_image = self.transforms(tensor_image)
+
+        return (tensor_image, label)
