@@ -7,10 +7,8 @@ from tqdm import tqdm
 import dataset
 import config
 import engine
-# import model
-
-from quickvision.models.classification import cnn
-from quickvision import utils
+import utils
+import timm
 
 
 if __name__ == "__main__":
@@ -34,10 +32,12 @@ if __name__ == "__main__":
         print(target)
         break
 
-    model = cnn.create_cnn("resnet50", num_classes=5, pretrained=None)
+    model = timm.create_model(config.MODEL_NAME, pretrained=True, num_classes=5)
+
+    print(model)
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(model.parameters(), lr=config.LEARNING_RATE)
+    optimizer = optim.AdamW(model.parameters(), lr=config.LEARNING_RATE)
 
     if torch.cuda.is_available():
         device = "cuda"
@@ -52,4 +52,4 @@ if __name__ == "__main__":
         metrics = engine.train_step(model, train_loader, criterion, device, optimizer)
 
         # Save model every epoch
-        torch.save(model.state_dict(), config.MODEL_PATH + f"_{epoch}" + ".pt")
+        torch.save(model.state_dict(), config.MODEL_SAVE + f"_{epoch}" + ".pt")
