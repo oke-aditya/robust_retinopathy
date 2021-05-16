@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms as T
 from tqdm import tqdm
 import dataset
-import config
+import config_baseline as config
 import engine
 from utils import seed_everything, set_debug_apis
 import timm
